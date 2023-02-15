@@ -8,6 +8,7 @@ public class Enunciat {
     Ponemos las dependencies en el pom.xml
     Ponemos <build> en el pom.xml
     Sync maven and probar text dentro de lifecycle.
+    Cambiar el Leguaje level en Project Structure por "Default"
 
 
     2. Puja el projecte a GitHub i activa les accions necessàries perquè, en fer commit, s'executin els jocs de proves
