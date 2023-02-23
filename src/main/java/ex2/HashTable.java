@@ -106,27 +106,36 @@ public class HashTable {
         if (entries[hash] != null) {
 
             HashEntry temp = entries[hash];
-            while (!temp.key.equals(key))
-                temp = temp.next;
 
-            //TODO Inici Correció
-            // Amb el COUNT no es resten els valor un cop eliminats, faltava "ITEMS--"
-            //temp.prev a temp.next
+            //TODO Inici Correcció
+            // Comprovem si te valor al següent sino tira una Null Exception i a més comprovem si temp.key es el valor que busquem.
+            // Si el valor no es troba sortim de la funció ja que la key que intentem eliminar no está.
+            while (temp.next != null && !temp.key.equals(key)) {
+                temp = temp.next;
+            }
+
+            if (!temp.key.equals(key)) return;
+
+            //TODO Amb el COUNT no es resten els valor un cop eliminats, faltava "ITEMS--"
+            // Comprovem si es la primera entrada, si sí i a més no te següent, netegem tot el bucket.
+            // Si te següent assignem aquest a la primera posició del bucket i desassignem el seu "prev" a null.
             if (temp.prev == null) {
-                if (temp.next == null){
+                if (temp.next == null) {
                     entries[hash] = null;   //esborrar element únic (no col·lissió)
-                }else{
+                } else {
                     entries[hash] = temp.next;
                     entries[hash].prev = null;
                 }
-                ITEMS--;
+                //TODO Si no és primera entrada, haurem de canviar tant el enllaç de "next" de l'anterior al que volem eliminar
+                // Com el "prev" del següent, per tal que el del mig desaparegui.
             } else {
-                ITEMS--;
-                temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
-                if (temp.prev != null)
-                    temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
+                temp.prev.next = temp.next;                            //esborrem temp, per tant actualitzem el següent de l'anterior
+                if (temp.next != null) {
+                    temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
+                }
             }
-            //FI Correció
+            ITEMS--;
+            //FI Correcció
 
 //            if (temp.prev == null) entries[hash] = null;             //esborrar element únic (no col·lissió)
 //            else {

@@ -265,26 +265,91 @@ class HashTableTest {
         Assertions.assertEquals(16, hashTable.size());
     }
 
-
-
-    //TODO    Esborrar un element que si col·lisiona dins una taula (2a posició dins el mateix bucket).
-//TODO    Esborrar un element que si col·lisiona dins una taula (3a posició dins el mateix bucket).
-//TODO    Eliminar un elements que no existeix perquè la seva posició està buida (no hi ha cap element dins el bucket).
-//TODO    Eliminar un elements que no existeix, tot i que la seva posició està ocupada per un altre que no col·lisiona.
-//TODO    Eliminar un elements que no existeix, tot i que la seva posició està ocupada per 3 elements col·lisionats.
     @Test
-    void drop() {
+    void drop_colision2nd_element() {
+        HashTable hashTable = new HashTable();
+        hashTable.put("joel", "joel");
+        hashTable.put(hashTable.getCollisionsForKey("joel"), "aña");
+        hashTable.put(hashTable.getCollisionsForKey(hashTable.getCollisionsForKey("joel")), "dupe3");
+
+        //TO DO    Esborrar un element que si col·lisiona dins una taula (2a posició dins el mateix bucket).
+        hashTable.drop(hashTable.getCollisionsForKey("joel"));
+        Assertions.assertEquals("\n" +
+                " bucket[12] = [joel, joel] -> [51, dupe3]", hashTable.toString());
+
+        Assertions.assertEquals(2, hashTable.count());
+        Assertions.assertEquals(16, hashTable.size());
     }
 
-    //TODO    S'ha de repetir tot el que s'ha fet amb "put" i comprovar amb "count" que el número de nodes és correcte.
-//TODO    S'ha de repetir tot el que s'ha fet amb "drop" i comprovar amb "count" que el número de nodes és correcte.
     @Test
+    void drop_colision3rd_element() {
+        HashTable hashTable = new HashTable();
+        hashTable.put("joel", "joel");
+        hashTable.put(hashTable.getCollisionsForKey("joel"), "aña");
+        hashTable.put(hashTable.getCollisionsForKey(hashTable.getCollisionsForKey("joel")), "dupe3");
+
+        //TO DO    Esborrar un element que si col·lisiona dins una taula (3a posició dins el mateix bucket).
+        hashTable.drop(hashTable.getCollisionsForKey(hashTable.getCollisionsForKey("joel")));
+        Assertions.assertEquals("\n" +
+                " bucket[12] = [joel, joel] -> [40, aña]", hashTable.toString());
+
+        Assertions.assertEquals(2, hashTable.count());
+        Assertions.assertEquals(16, hashTable.size());
+    }
+
+    @Test
+    void drop_notFound_emptyBucket() {
+        HashTable hashTable = new HashTable();
+        hashTable.put("joel", "joel");
+
+        //TO DO    Eliminar un elements que no existeix perquè la seva posició està buida (no hi ha cap element dins el bucket).
+        hashTable.drop("1");
+        Assertions.assertEquals("\n" +
+                " bucket[12] = [joel, joel]", hashTable.toString());
+
+        Assertions.assertEquals(1, hashTable.count());
+        Assertions.assertEquals(16, hashTable.size());
+    }
+
+    @Test
+    void drop_notFound_fillBucket_noColision() {
+        HashTable hashTable = new HashTable();
+        hashTable.put("joel", "joel");
+
+        //TO DO    Eliminar un elements que no existeix, tot i que la seva posició està ocupada per un altre que no col·lisiona.
+        hashTable.drop("40");
+        Assertions.assertEquals("\n" +
+                " bucket[12] = [joel, joel]", hashTable.toString());
+
+        Assertions.assertEquals(1, hashTable.count());
+        Assertions.assertEquals(16, hashTable.size());
+    }
+
+    @Test
+    void drop_notFound_fillBucket_colision3() {
+        HashTable hashTable = new HashTable();
+        hashTable.put("joel", "joel");
+        hashTable.put(hashTable.getCollisionsForKey("joel"), "aña");
+        hashTable.put(hashTable.getCollisionsForKey(hashTable.getCollisionsForKey("joel")), "dupe3");
+
+        //TO DO    Eliminar un elements que no existeix, tot i que la seva posició està ocupada per 3 elements col·lisionats.
+
+        hashTable.drop("62");
+        Assertions.assertEquals("\n" +
+                " bucket[12] = [joel, joel] -> [40, aña] -> [51, dupe3]", hashTable.toString());
+
+        Assertions.assertEquals(3, hashTable.count());
+        Assertions.assertEquals(16, hashTable.size());
+    }
+
+    //TODO Els dos següents metódes es comproven durant les proves unitaries del altres metódes que els apliquen com són el "put" i el "drop".
+    //TO DO    S'ha de repetir tot el que s'ha fet amb "put" i comprovar amb "count" que el número de nodes és correcte.
+    //TO DO    S'ha de repetir tot el que s'ha fet amb "drop" i comprovar amb "count" que el número de nodes és correcte.
     void count() {
     }
 
-    //TODO    S'ha de repetir tot el que s'ha fet amb "put" i comprovar amb "size" que el tamany de la taula és correcte.
-//TODO    S'ha de repetir tot el que s'ha fet amb "drop" i comprovar amb "size" que el tamany de la taula és correcte.
-    @Test
+    //TO DO    S'ha de repetir tot el que s'ha fet amb "put" i comprovar amb "size" que el tamany de la taula és correcte.
+    //TO DO    S'ha de repetir tot el que s'ha fet amb "drop" i comprovar amb "size" que el tamany de la taula és correcte.
     void size() {
     }
 }
