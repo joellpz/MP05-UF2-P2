@@ -22,5 +22,13 @@ public class Enunciat {
              l'execució de proves sobre GitHub funciona correctament.
         3.3. Explica en què consisteix el concepte de Continuous Integration (CI) i quina relació té amb el que
              acabes de fer en aquest exercici.
+
+             //TODO El CI o Continuous Integration és un procès on cada canvi que es realitza dins del nostre codi
+                 es testejat i verificat amb unes probes que s'han definit amb anterioritat. Així comprovem la integritat
+                 i el correcte funcionament del nostre codi cada cop que trobem canvis en el mateix.
+
+             //TODO Per el moment aquest exercici trobem com integrar les llibreries de Maven per permetre realitzar de manera
+                automatica les proves definides.
+
 */
 }

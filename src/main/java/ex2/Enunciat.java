@@ -20,11 +20,21 @@ public class Enunciat {
 
     5. Grava en vídeo el següent:
        5.1. Explica què són les proves unitàries i perquè serveixen.
+       //TODO Les proves unitàries són aquelles que comprven el correcte funcionament del nostre codi, i asseguren la integritat
+            del mateix davant dels canvis que es van realitzant durant el desenvolupament.
        5.2. Mostra els teus jocs de proves i explica com els has dissenyat, què pretèns demostrar o comprovar, perquè
             l'has fet d'aquesta manera i no d'una altra, etc.
+       //TODO Els meus jocs de proves intenten realitzar test a diferents funcions del codi, per veure que funcionen correctament.
+            He dividit primer un test per funció i posteriorment, a l'anar extreient els diferents casos "complicats" que és poden generar
+            a cada funció, he generat un test per cada cas.
        5.3. Mostra com has sol·lucionat els errors, explicant quin era el problema i com ho has solucionat.
+       //TODO Mostrar CODI
        5.4. Explica el concepte de TDD i argumenta si s'ha seguit al llarg d'aquesta pràctica o no.
+       //TODO El Test Driven Development és una pràctica d'enginyeria de programari que involucra dues pràctiques
+          més: Escriure les proves primer i Refacció. Per escriure les proves generalment es fan servir les proves unitàries.
+          Aquest exercici s'ha caracteritzat per realitzar el primer pas de generar les proves unitaries.
        5.5. Recorda que cal fer la demostració del funcionament de les proves dins de GitHub si encara no ho has fet.
+
 
     IMPORTANT:
         - L'exercici no puntua si dins el vídeo no queda argumentat el treball realitzat.
