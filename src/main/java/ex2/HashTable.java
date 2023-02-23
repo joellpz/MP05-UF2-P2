@@ -34,7 +34,7 @@ public class HashTable {
 
         if (entries[hash] == null) {
             entries[hash] = hashEntry;
-            //INICI Correció
+            //TODO INICI Correció
             //Error COUNT no dona le valor correcte perque el valor de "ITEMS" no s'actualitza.
             ITEMS++;
             //FI Correció
@@ -43,19 +43,15 @@ public class HashTable {
 
             //INICI Correció
 
-            //Error amb l'Update, no actualitza el value en cas de estar ubicat a la primera posició
+            //Error amb l'Update, no actualitza.
+            while (temp.next != null && !temp.key.equals(key)) {
+                temp = temp.next;
+
+            }
+
             if (temp.key.equals(key)) {
                 temp.value = hashEntry.value;
                 return;
-            }
-
-            while (temp.next != null) {
-                temp = temp.next;
-                //Error amb l'Update, no actualitza el value en cas d'estar en una posició != 1.
-                if (temp.key.equals(key)) {
-                    temp.value = value;
-                    return;
-                }
             }
             //FI Correció
 
@@ -67,6 +63,7 @@ public class HashTable {
 
             temp.next = hashEntry;
             hashEntry.prev = temp;
+            ITEMS++;
         }
     }
 
@@ -81,10 +78,19 @@ public class HashTable {
         if (entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while (!temp.key.equals(key))
+            //TODO INICI Correció
+            // Al utilitzar el GET en una posició no buida del Bucket.
+            // Get donava NullPointerExeption perque no comprovaba si el temp.next tenia valor e intentava asignar-lo infinitament.
+            while (temp.next != null && !temp.key.equals(key)) {
                 temp = temp.next;
+            }
 
-            return temp.value;
+            if (temp.key.equals(key)) return temp.value;
+            //FI Correció
+//            while (!temp.key.equals(key))
+//                temp = temp.next;
+//
+//            return temp.value;
         }
 
         return null;
@@ -103,12 +109,31 @@ public class HashTable {
             while (!temp.key.equals(key))
                 temp = temp.next;
 
-            if (temp.prev == null) entries[hash] = null;             //esborrar element únic (no col·lissió)
-            else {
-                if (temp.next != null)
-                    temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
-                temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
+            //TODO Inici Correció
+            // Amb el COUNT no es resten els valor un cop eliminats, faltava "ITEMS--"
+            //temp.prev a temp.next
+            if (temp.prev == null) {
+                if (temp.next == null){
+                    entries[hash] = null;   //esborrar element únic (no col·lissió)
+                }else{
+                    entries[hash] = temp.next;
+                    entries[hash].prev = null;
+                }
+                ITEMS--;
+            } else {
+                ITEMS--;
+                temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
+                if (temp.prev != null)
+                    temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
             }
+            //FI Correció
+
+//            if (temp.prev == null) entries[hash] = null;             //esborrar element únic (no col·lissió)
+//            else {
+//                if (temp.next != null)
+//                    temp.next.prev = temp.prev;   //esborrem temp, per tant actualitzem l'anterior al següent
+//                temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
+//            }
         }
     }
 
