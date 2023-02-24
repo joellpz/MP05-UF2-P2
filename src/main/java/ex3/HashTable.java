@@ -1,4 +1,4 @@
-package ex2;
+package ex3;
 
 // Original source code: https://gist.github.com/amadamala/3cdd53cb5a6b1c1df540981ab0245479
 // Modified by Fernando Porrino Serrano for academic purposes.
@@ -34,18 +34,14 @@ public class HashTable {
 
         if (entries[hash] == null) {
             entries[hash] = hashEntry;
-            //TODO INICI Correció
+            //TO DO INICI Correció
             //Error COUNT no dona le valor correcte perque el valor de "ITEMS" no s'actualitza.
+
             //FI Correció
         } else {
-            HashEntry temp = entries[hash];
 
-            //INICI Correció
-            //Error amb l'Update, no actualitza.
-            while (temp.next != null && !temp.key.equals(key)) {
-                temp = temp.next;
-
-            }
+            //TODO Extració de metóde
+            HashEntry temp = findBucketEntry(key, hash);
 
             if (temp.key.equals(key)) {
                 temp.value = hashEntry.value;
@@ -58,6 +54,7 @@ public class HashTable {
 //                if (temp.next.key.equals(key)) break;
 //                temp = temp.next;
 //            }
+
             temp.next = hashEntry;
             hashEntry.prev = temp;
         }
@@ -73,14 +70,9 @@ public class HashTable {
     public String get(String key) {
         int hash = getHash(key);
         if (entries[hash] != null) {
-            HashEntry temp = entries[hash];
 
-            //TODO INICI Correció
-            // Al utilitzar el GET en una posició no buida del Bucket.
-            // Get donava NullPointerExeption perque no comprovaba si el temp.next tenia valor e intentava asignar-lo infinitament.
-            while (temp.next != null && !temp.key.equals(key)) {
-                temp = temp.next;
-            }
+            //TODO Extració de mètode
+            HashEntry temp = findBucketEntry(key, hash);
 
             if (temp.key.equals(key)) return temp.value;
             //FI Correció
@@ -102,18 +94,11 @@ public class HashTable {
         int hash = getHash(key);
         if (entries[hash] != null) {
 
-            HashEntry temp = entries[hash];
-
-            //TODO Inici Correcció
-            // Comprovem si te valor al següent sino tira una Null Exception i a més comprovem si temp.key es el valor que busquem.
-            // Si el valor no es troba sortim de la funció ja que la key que intentem eliminar no está.
-            while (temp.next != null && !temp.key.equals(key)) {
-                temp = temp.next;
-            }
-
+            //TODO Extració de mètode
+            HashEntry temp = findBucketEntry(key, hash);
             if (!temp.key.equals(key)) return;
 
-            //TODO Amb el COUNT no es resten els valor un cop eliminats, faltava "ITEMS--"
+            //TOD O Amb el COUNT no es resten els valor un cop eliminats, faltava "ITEMS--"
             // Comprovem si es la primera entrada, si sí i a més no te següent, netegem tot el bucket.
             // Si te següent assignem aquest a la primera posició del bucket i desassignem el seu "prev" a null.
             if (temp.prev == null) {
@@ -123,7 +108,7 @@ public class HashTable {
                     entries[hash] = temp.next;
                     entries[hash].prev = null;
                 }
-                //TODO Si no és primera entrada, haurem de canviar tant el enllaç de "next" de l'anterior al que volem eliminar
+                //TOD O Si no és primera entrada, haurem de canviar tant el enllaç de "next" de l'anterior al que volem eliminar
                 // Com el "prev" del següent, per tal que el del mig desaparegui.
             } else {
                 temp.prev.next = temp.next;                            //esborrem temp, per tant actualitzem el següent de l'anterior
@@ -141,6 +126,21 @@ public class HashTable {
 //                temp.prev.next = temp.next;                         //esborrem temp, per tant actualitzem el següent de l'anterior
 //            }
         }
+    }
+
+    //TODO Extració de mètode
+
+    /**
+     * Metóde que busca si dins del bucket trobem el valor dessitjat, en cas de no trobar-lo
+     * retorna l'ultima posició
+     */
+    private HashEntry findBucketEntry(String key, int hash) {
+        HashEntry temp = entries[hash];
+        while (temp.next != null && !temp.key.equals(key)) {
+            temp = temp.next;
+        }
+
+        return temp;
     }
 
     private int getHash(String key) {
@@ -272,22 +272,9 @@ public class HashTable {
         return foundKeys;
     }
 
-    public static void main(String[] args) {
-        HashTable hashTable = new HashTable();
 
-        // Put some key values.
-        for (int i = 0; i < 30; i++) {
-            final String key = String.valueOf(i);
-            hashTable.put(key, key);
-        }
-
-        // Print the HashTable structure
-        log("****   HashTable  ***");
-        log(hashTable.toString());
-        log("\nValue for key(20) : " + hashTable.get("20"));
-    }
-
-    private static void log(String msg) {
+    protected static void log(String msg) {
         System.out.println(msg);
     }
 }
+
