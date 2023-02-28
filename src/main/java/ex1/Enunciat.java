@@ -1,6 +1,7 @@
 package ex1;
 
 public class Enunciat {
+    //TODO FIN
 /*
     1. Fes les modificacions necessàries perquè aquest projecte funcioni correctament fent servir Maven.
 
